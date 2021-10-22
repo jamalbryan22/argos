@@ -27,4 +27,12 @@ public class UserService {
     User user = userDAO.login(userIDCookie);
     return user;
   }
+
+  public void deleteUser(String userID) {
+    userDAO.deleteUser(userID);
+  }
+
+  public void updateUser(User user) {
+    userDAO.updateUser(user);
+  }
 }

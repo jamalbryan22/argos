@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,6 @@ public class UserController {
     this.userService = userService;
   }
 
-  // TODO: Map to DB
   @PostMapping("/login")
   public String loginIn(@CookieValue(name = "userID", defaultValue = "null") String userIDCookie, @RequestBody LoginCredentials loginCredentials, HttpServletResponse response) {
 
@@ -55,7 +55,6 @@ public class UserController {
       return "Bad Email or Password";
   }
 
-// TODO: Map to DB
   @PostMapping("/signup")
   public void addNewUser(@RequestBody User user, HttpServletResponse response){
 
@@ -73,9 +72,13 @@ public class UserController {
 
   }
 
-//  TODO:
-//  @DeleteMapping
-//  public void deleteUser(@RequestParam String studentID){
-//
-//  }
+  @PatchMapping("/update")
+  public void updateUser(@RequestBody User user){
+    userService.updateUser(user);
+  }
+
+  @DeleteMapping
+  public void deleteUser(@RequestParam String userID){
+    userService.deleteUser(userID);
+  }
 }

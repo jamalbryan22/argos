@@ -25,7 +25,7 @@ public class User {
 
   public User(
       @JsonProperty("userID") String userID,
-      @JsonProperty("studentFirst") String firstName,
+      @JsonProperty("firstName") String firstName,
       @JsonProperty("lastName") String lastName,
       @JsonProperty("email") String email,
       @JsonProperty("password") String password) {
