@@ -1,15 +1,10 @@
 package bryan.Argos.user;
 
 import bryan.Argos.security.LoginCredentials;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/users")
 public class UserController {
 
-  UserService userService;
+  private final UserService userService;
 
   @Autowired
   public UserController(UserService userService) {
@@ -56,25 +50,29 @@ public class UserController {
   }
 
   @PostMapping("/signup")
-  public void addNewUser(@RequestBody User user, HttpServletResponse response){
+  public User addNewUser(@RequestBody User user, HttpServletResponse response){
 
-    User newUser = null;
     Cookie cookie = null;
     try{
       user.setUserID(UUID.randomUUID().toString());
-      newUser = userService.createNewUser(user);
-      cookie = new Cookie("userID",newUser.getUserID());
+      cookie = new Cookie("userID",user.getUserID());
       response.addCookie(cookie);
+      return userService.createNewUser(user);
     }
     catch (Exception e){
       System.out.println("Something went wrong with the add new method:" + e);
     }
+    return user;
+  }
 
+  @GetMapping()
+  public User getUser(@RequestParam String userID){
+    return userService.getUser(userID);
   }
 
   @PatchMapping("/update")
-  public void updateUser(@RequestBody User user){
-    userService.updateUser(user);
+  public User updateUser(@RequestBody User user){
+    return userService.updateUser(user);
   }
 
   @DeleteMapping

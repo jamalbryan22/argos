@@ -3,23 +3,17 @@ package bryan.Argos.user;
 import bryan.Argos.bug.Bug;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("users")
 public class User {
 
-  public List<Bug> getWorkingBugs() {
-    return workingBugs;
-  }
-
   @Id
   private String userID;
   private String firstName;
-  private String email;
   private String lastName;
+  private String email;
   private String password;
   private List<Bug> workingBugs;
 
@@ -79,6 +73,10 @@ public class User {
     public void setWorkingBugs(List<Bug> workingBugs) {
       this.workingBugs = workingBugs;
     }
+
+    public List<Bug> getWorkingBugs() {
+    return workingBugs;
+  }
 
   @Override
   public String toString() {

@@ -1,22 +1,31 @@
 package bryan.Argos.administrator;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 public class Administrator {
 
-  private final UUID administratorID;
+  private String administratorID;
   private String email;
   private String password;
   private String firstName;
   private String lastName;
 
-
-  public Administrator(String email, String password, String firstName, String lastName) {
-    this.administratorID = UUID.randomUUID();
-    this.email = email;
-    this.password = password;
+  public Administrator(@JsonProperty("administratorID") String developerID,
+      @JsonProperty ("firstName") String firstName,
+      @JsonProperty("lastName")String lastName,
+      @JsonProperty("email") String email,
+      @JsonProperty("password") String password) {
+    this.administratorID = administratorID;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+  }
+
+  public String getAdministratorID() {
+    return administratorID;
   }
 
   public String getEmail() {
@@ -33,6 +42,10 @@ public class Administrator {
 
   public String getLastName() {
     return lastName;
+  }
+
+  public void setAdministratorID(String administratorID) {
+    this.administratorID = administratorID;
   }
 
   public void setEmail(String email) {
