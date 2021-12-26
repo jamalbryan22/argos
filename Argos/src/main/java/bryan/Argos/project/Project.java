@@ -2,25 +2,27 @@ package bryan.Argos.project;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
-import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("Projects")
+@Document("projects")
 public class Project {
 
   @Id
   private String projectID;
   private String projectName;
+  private String creatorUserID;
   private Date createdAt;
 
 
   public Project(
-      @JsonProperty("projectName") String projectID,
-      @JsonProperty("projectName") String projectName) {
-    this.projectID = projectID;
-    this.projectName = projectName;
-    this.createdAt = new Date();
+      @JsonProperty("projectID") String projectID,
+      @JsonProperty("projectName") String projectName,
+      @JsonProperty("creatorUserID") String creatorUserID) {
+      this.projectID = projectID;
+      this.projectName = projectName;
+      this.creatorUserID = creatorUserID;
+      this.createdAt = new Date();
   }
 
   public String getProjectID() {

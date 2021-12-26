@@ -1,6 +1,8 @@
 package bryan.Argos.project;
 
 import bryan.Argos.mongodb.repositories.ProjectRepository;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +13,7 @@ public class ProjectDAO {
   ProjectRepository projectRepository;
 
   Project createProject(Project newProject){
-   return projectRepository.save( newProject);
+   return projectRepository.save(newProject);
   }
 
   public void deleteProject(String projectID) {
@@ -22,7 +24,11 @@ public class ProjectDAO {
     projectRepository.save(project);
   }
 
-  public Project getProject(String projectID) {
-    return projectRepository.findByProjectID(projectID);
+  public Optional<Project> getProject(String projectID) {
+    System.out.println(projectID);
+    System.out.println(projectRepository.findById(projectID));
+    return projectRepository.findById(projectID);
   }
+
+  public List<Project> getAllUserProjects(String userID){return projectRepository.findAllProjectsByCreatorUserID(userID);}
 }

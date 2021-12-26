@@ -1,9 +1,13 @@
 package bryan.Argos.user;
 
 import bryan.Argos.bug.Bug;
+import bryan.Argos.security.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("users")
@@ -13,21 +17,20 @@ public class User {
   private String userID;
   private String firstName;
   private String lastName;
+  private String userName;
   private String email;
   private String password;
-  private List<Bug> workingBugs;
+  @DBRef
+  private Set<Role> roles = new HashSet<>();
+
 
   public User(
-      @JsonProperty("userID") String userID,
-      @JsonProperty("firstName") String firstName,
-      @JsonProperty("lastName") String lastName,
+      @JsonProperty("username") String userName,
       @JsonProperty("email") String email,
-      @JsonProperty("password") String password) {
-    this.userID = userID;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.password = password;
+      @JsonProperty("password") String password){
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
   }
 
     public String getUserID() {
@@ -45,6 +48,10 @@ public class User {
     public void setFirstName(String firstName) {
       this.firstName = firstName;
     }
+
+    public String getUserName(){return userName;}
+
+    public void setUserName(String userName){this.userName = userName;}
 
     public String getEmail() {
       return email;
@@ -70,22 +77,12 @@ public class User {
       this.password = password;
     }
 
-    public void setWorkingBugs(List<Bug> workingBugs) {
-      this.workingBugs = workingBugs;
+    public Set<Role> getRoles() {
+      return roles;
     }
 
-    public List<Bug> getWorkingBugs() {
-    return workingBugs;
-  }
+    public void setRoles(Set<Role> roles) {
+      this.roles = roles;
+    }
 
-  @Override
-  public String toString() {
-    return "User{" +
-        "userID='" + userID + '\'' +
-        ", firstName='" + firstName + '\'' +
-        ", email='" + email + '\'' +
-        ", lastName='" + lastName + '\'' +
-        ", password='" + password + '\'' +
-        '}';
-  }
 }

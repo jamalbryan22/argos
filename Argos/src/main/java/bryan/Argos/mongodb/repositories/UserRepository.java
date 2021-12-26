@@ -1,11 +1,14 @@
 package bryan.Argos.mongodb.repositories;
 
 import bryan.Argos.user.User;
+import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UserRepository extends MongoRepository<User,String> {
 
-  User findByEmail(String email);
+  Optional<User> findByuserName(String username);
 
-  User findByUserID(String userID);
+  Boolean existsByuserName(String username);
+
+  Boolean existsByEmail(String email);
 }

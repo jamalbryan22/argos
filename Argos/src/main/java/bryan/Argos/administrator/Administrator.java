@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+
 public class Administrator {
 
   private String administratorID;

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/bugs")
 public class BugController {
 
-  @Autowired
   private final BugService bugService;
 
-  public BugController(BugService bugService){this.bugService=bugService;}
+  @Autowired
+  public BugController(BugService bugService){this.bugService = bugService;}
 
   @PostMapping("")
   public Bug addNewBug(@RequestBody Bug bug, HttpServletResponse response){
