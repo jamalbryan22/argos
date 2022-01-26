@@ -1,38 +1,40 @@
 package bryan.Argos.bug;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("Bugs")
+@Document("bugs")
 public class Bug {
 
   @Id
   private String bugID;
-  private String projectID;
-  private String assignedDeveloperID;
+  private String ProjectID;
+  private ArrayList<String> assignedDevelopersID;
   private String creatorID;
   private String description;
-  private Date dateCreated;
+  private LocalDateTime dateCreated;
   private Date dateResolved;
   private Boolean resolved;
 
   public Bug(
       @JsonProperty("bugID") String bugID,
-      @JsonProperty("projectID")String projectID,
-      @JsonProperty("assignedDeveloperID")String assignedDeveloperID,
+      @JsonProperty("ProjectID")String ProjectID,
+      @JsonProperty("DevelopersID")String DevelopersID,
       @JsonProperty("creatorID")String creatorID,
       @JsonProperty("description")String description,
-      @JsonProperty("dateCreated")Date dateCreated,
       @JsonProperty("dateResolved")Date dateResolved,
       @JsonProperty("resolved")Boolean resolved) {
-    bugID = bugID;
-    this.projectID = projectID;
-    this.assignedDeveloperID = assignedDeveloperID;
+    this.bugID = bugID;
+    this.ProjectID = ProjectID;
+    this.assignedDevelopersID = setAssignedDevelopersID(DevelopersID);
     this.creatorID = creatorID;
     this.description = description;
-    this.dateCreated = dateCreated;
+    this.dateCreated = LocalDateTime.now();
     this.dateResolved = dateResolved;
     this.resolved = resolved;
   }
@@ -46,19 +48,20 @@ public class Bug {
   }
 
   public String getProjectID() {
-    return projectID;
+    return ProjectID;
   }
 
-  public void setProjectID(String projectID) {
-    this.projectID = projectID;
+  public void setProjectID(String ProjectID) {
+    this.ProjectID = ProjectID;
   }
 
-  public String getAssignedDeveloperID() {
-    return assignedDeveloperID;
+  public ArrayList<String> getAssignedDevelopersID() {
+    return assignedDevelopersID;
   }
 
-  public void setAssignedDeveloperID(String assignedDeveloperID) {
-    this.assignedDeveloperID = assignedDeveloperID;
+  public ArrayList<String> setAssignedDevelopersID(String developersID) {
+    assignedDevelopersID.add(developersID);
+    return assignedDevelopersID;
   }
 
   public String getCreatorID() {
@@ -77,11 +80,11 @@ public class Bug {
     this.description = description;
   }
 
-  public Date getDateCreated() {
+  public LocalDateTime getDateCreated() {
     return dateCreated;
   }
 
-  public void setDateCreated(Date dateCreated) {
+  public void setDateCreated(LocalDateTime dateCreated) {
     this.dateCreated = dateCreated;
   }
 

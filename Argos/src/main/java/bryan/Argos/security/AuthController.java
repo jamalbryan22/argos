@@ -52,7 +52,7 @@ public class AuthController {
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtUtils.generateJwtToken(authentication);
@@ -71,11 +71,6 @@ public class AuthController {
 
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-    if (userRepository.existsByuserName(signUpRequest.getUsername())) {
-      return ResponseEntity
-          .badRequest()
-          .body(new MessageResponse("Error: Username is already taken!"));
-    }
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
       return ResponseEntity
@@ -84,9 +79,15 @@ public class AuthController {
     }
 
     // Create new user's account
-    User user = new User(signUpRequest.getUsername(),
-        signUpRequest.getEmail(),
-        encoder.encode(signUpRequest.getPassword()));
+    User user = new User(signUpRequest.getFirst_name(),
+                         signUpRequest.getLast_name(),
+                         signUpRequest.getEmail(),
+                         encoder.encode(signUpRequest.getPassword()),
+                         signUpRequest.getAge(),
+                         signUpRequest.getUser_country(),
+                         signUpRequest.getUser_state(),
+                         signUpRequest.getUser_city(),
+                         signUpRequest.getUser_zip());
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
@@ -104,10 +105,10 @@ public class AuthController {
             roles.add(adminRole);
 
             break;
-          case "dev":
-            Role modRole = roleRepository.findByName(ERole.ROLE_DEVELOPER)
+          case "developer":
+            Role developerRole = roleRepository.findByName(ERole.ROLE_DEVELOPER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(modRole);
+            roles.add(developerRole);
 
             break;
           default:

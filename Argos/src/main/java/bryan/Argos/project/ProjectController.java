@@ -3,8 +3,6 @@ package bryan.Argos.project;
 
 import java.util.List;
 import java.util.Optional;
-import org.bson.json.JsonObject;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
@@ -29,13 +27,13 @@ public class ProjectController {
   }
 
   @PostMapping("/create-project")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER') or hasRole('DEVELOPER') or hasRole('ADMIN')")
   public Project createProject(@RequestBody Project newProject) {
     return projectService.createProject(newProject);
   }
 
   @GetMapping("/get-all-projects")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER') or hasRole('DEVELOPER') or hasRole('ADMIN')")
   public List<Project> getAllProjects(@RequestBody String creatorUserID) {
     if (StringUtils.hasText(creatorUserID)) {
       creatorUserID = creatorUserID.substring(20, creatorUserID.length()-4);
@@ -45,7 +43,7 @@ public class ProjectController {
   }
 
   @GetMapping("/get-project")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER') or hasRole('DEVELOPER') or hasRole('ADMIN')")
   public Optional<Project> getProject(@RequestBody String projectID) {
     if (StringUtils.hasText(projectID)) {
       projectID = projectID.substring(16, projectID.length()-4);
@@ -55,13 +53,13 @@ public class ProjectController {
   }
 
   @PatchMapping("/update-project")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER') or hasRole('DEVELOPER') or hasRole('ADMIN')")
   public void updateProject(@RequestBody Project project) {
     projectService.updateProject(project);
   }
 
   @DeleteMapping("/delete-project")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER') or hasRole('DEVELOPER') or hasRole('ADMIN')")
   public void deleteProject(@RequestBody String projectID) {
     if (StringUtils.hasText(projectID)) {
       projectID = projectID.substring(15, projectID.length()-3);

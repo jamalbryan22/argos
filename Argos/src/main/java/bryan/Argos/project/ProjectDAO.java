@@ -26,7 +26,6 @@ public class ProjectDAO {
 
   public Optional<Project> getProject(String projectID) {
     System.out.println(projectID);
-    System.out.println(projectRepository.findById(projectID));
     return projectRepository.findById(projectID);
   }
 
