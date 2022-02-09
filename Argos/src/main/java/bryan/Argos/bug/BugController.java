@@ -24,7 +24,7 @@ public class BugController {
   public BugController(BugService bugService){this.bugService = bugService;}
 
   @PostMapping("")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER') or hasRole('Developer') or hasRole('ADMIN')")
   public Bug createBug(@RequestBody Bug newBug){
     if(newBug.getDateResolved() == null){
       newBug.setDateResolved(null);
@@ -33,7 +33,7 @@ public class BugController {
   }
 
   @GetMapping("")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER') or hasRole('Developer') or hasRole('ADMIN')")
   public Optional<Bug> getBug(@RequestBody String bugID){
     if (StringUtils.hasText(bugID)) {
       bugID = bugID.substring(14, bugID.length()-2);
@@ -43,58 +43,54 @@ public class BugController {
 
 
   @GetMapping("/all-user-bugs")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER') or hasRole('Developer') or hasRole('ADMIN')")
   public List<Bug> getAllUserBugs(@RequestBody String creatorID){
     if (StringUtils.hasText(creatorID)) {
       creatorID = creatorID.substring(16, creatorID.length()-3);
     }
-    System.out.println(creatorID);
     return bugService.findByCreatorID(creatorID);
   }
 
   @GetMapping("/all-project-bugs")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER') or hasRole('Developer') or hasRole('ADMIN')")
   public List<Bug> getAllProjectBugs(@RequestBody String projectID){
     if (StringUtils.hasText(projectID)) {
       projectID = projectID.substring(19, projectID.length()-3);
     }
-    System.out.println(projectID);
     return bugService.findBugsByProjectID(projectID);
   }
 
   @PatchMapping("")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('Developer') or hasRole('ADMIN')")
   public Bug updateBug(@RequestBody Bug bugUpdates){
     return bugService.updateBug(bugUpdates);
   }
 
   @DeleteMapping("")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('Developer') or hasRole('ADMIN')")
   public void deleteBug(@RequestBody String bugID){
     bugService.deleteBug(bugID);
   }
 
   @PostMapping("/add-assigned-developer")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('ADMIN')")
   public void addAssignedDev(@RequestBody UpdateAssignedDeveloperRequest updateDeveloperRequest){
 
     Optional bugToBeUpdated = bugService.findByBugID(updateDeveloperRequest.getBugID());
     if(bugToBeUpdated.isPresent()){
       Bug bug = (Bug) bugToBeUpdated.get();
-      System.out.println(bug);
       bug.setAssigneddevelopersID(updateDeveloperRequest.getDeveloperID());
       bugService.updateBug(bug);
     }
   }
 
   @PostMapping("/remove-assigned-developer")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('ADMIN')")
   public void removeAssignedDev(@RequestBody UpdateAssignedDeveloperRequest updateDeveloperRequest){
 
     Optional bugToBeUpdated = bugService.findByBugID(updateDeveloperRequest.getBugID());
     if(bugToBeUpdated.isPresent()){
       Bug bug = (Bug) bugToBeUpdated.get();
-      System.out.println(bug);
       bug.removeAssigneddevelopersID(updateDeveloperRequest.getDeveloperID());
       bugService.updateBug(bug);
     }
