@@ -1,6 +1,7 @@
 package bryan.Argos.bug;
 
 import bryan.Argos.mongodb.repositories.BugRepository;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,17 @@ public class BugDAO {
     return bugRepository.findByCreatorID(creatorID);
   }
 
-  public List<Bug> findByReferenceProjectID(String referenceProjectID) {
-    return bugRepository.findByProjectID(referenceProjectID);
+  public List<Bug> findByProjectID(String ProjectID) {
+//    return bugsRepository.findByProjectID(ProjectID);
+        System.out.println(bugRepository.findAllById(Collections.singleton("3")));
+        return bugRepository.findAll();
+
+
+
   }
 
   public Optional<Bug> findByBugID(String bugID){
+    System.out.println("bug repo return:" + bugRepository.findById(bugID));
     return bugRepository.findById(bugID);
   }
 

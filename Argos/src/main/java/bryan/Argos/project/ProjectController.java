@@ -36,7 +36,7 @@ public class ProjectController {
   @PreAuthorize("hasRole('USER') or hasRole('DEVELOPER') or hasRole('ADMIN')")
   public List<Project> getAllProjects(@RequestBody String creatorUserID) {
     if (StringUtils.hasText(creatorUserID)) {
-      creatorUserID = creatorUserID.substring(20, creatorUserID.length()-4);
+      creatorUserID = creatorUserID.substring(20, creatorUserID.length()-5);
     }
     System.out.println(creatorUserID);
     return projectService.getAllUserProjects(creatorUserID);

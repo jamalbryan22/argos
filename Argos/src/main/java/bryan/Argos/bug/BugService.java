@@ -21,8 +21,9 @@ public class BugService {
     return bugDAO.findByCreatorID(creatorID);
   }
 
-  public List<Bug> findBugsByReferenceProjectID(String referenceProjectID) {
-    return bugDAO.findByReferenceProjectID(referenceProjectID);
+  public List<Bug> findBugsByProjectID(String ProjectID) {
+    System.out.println(ProjectID);
+    return bugDAO.findByProjectID(ProjectID);
   }
 
   public Optional<Bug> findByBugID(String bugID){

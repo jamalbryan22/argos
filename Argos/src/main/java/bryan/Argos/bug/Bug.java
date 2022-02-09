@@ -13,8 +13,8 @@ public class Bug {
 
   @Id
   private String bugID;
-  private String ProjectID;
-  private ArrayList<String> assignedDevelopersID;
+  private String projectID;
+  private ArrayList<String> assigneddevelopersID = new ArrayList<String>();
   private String creatorID;
   private String description;
   private LocalDateTime dateCreated;
@@ -23,20 +23,17 @@ public class Bug {
 
   public Bug(
       @JsonProperty("bugID") String bugID,
-      @JsonProperty("ProjectID")String ProjectID,
-      @JsonProperty("DevelopersID")String DevelopersID,
+      @JsonProperty("projectID")String projectID,
       @JsonProperty("creatorID")String creatorID,
       @JsonProperty("description")String description,
-      @JsonProperty("dateResolved")Date dateResolved,
-      @JsonProperty("resolved")Boolean resolved) {
+      @JsonProperty("dateResolved")Date dateResolved) {
     this.bugID = bugID;
-    this.ProjectID = ProjectID;
-    this.assignedDevelopersID = setAssignedDevelopersID(DevelopersID);
+    this.projectID = projectID;
     this.creatorID = creatorID;
     this.description = description;
     this.dateCreated = LocalDateTime.now();
-    this.dateResolved = dateResolved;
-    this.resolved = resolved;
+    this.dateResolved = null;
+    this.resolved = false;
   }
 
   public String getBugID() {
@@ -48,20 +45,25 @@ public class Bug {
   }
 
   public String getProjectID() {
-    return ProjectID;
+    return projectID;
   }
 
-  public void setProjectID(String ProjectID) {
-    this.ProjectID = ProjectID;
+  public void setProjectID(String projectID) {
+    this.projectID = projectID;
   }
 
-  public ArrayList<String> getAssignedDevelopersID() {
-    return assignedDevelopersID;
+  public ArrayList<String> getAssigneddevelopersID() {
+    return assigneddevelopersID;
   }
 
-  public ArrayList<String> setAssignedDevelopersID(String developersID) {
-    assignedDevelopersID.add(developersID);
-    return assignedDevelopersID;
+  public ArrayList<String> setAssigneddevelopersID(String developersID) {
+    assigneddevelopersID.add(developersID);
+    return assigneddevelopersID;
+  }
+
+  public ArrayList<String> removeAssigneddevelopersID(String developersID) {
+    assigneddevelopersID.remove(developersID);
+    return assigneddevelopersID;
   }
 
   public String getCreatorID() {

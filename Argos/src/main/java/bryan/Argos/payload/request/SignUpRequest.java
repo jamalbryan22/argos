@@ -1,16 +1,11 @@
 package bryan.Argos.payload.request;
 
-import bryan.Argos.security.Role;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class SignUpRequest {
 
